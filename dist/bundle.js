@@ -27,13 +27,17 @@ ___CSS_LOADER_EXPORT___.push([module.id, `* {
   background-color: rgb(214, 191, 191);
 }
 
+.points {
+  color: rgb(48, 48, 48);
+}
+
 #pointsButton {
   background-color: rgb(255, 240, 240);
 }
 
 #pointsButton:hover {
   background-color: rgb(167, 157, 157);
-}`, "",{"version":3,"sources":["webpack://./src/styles/global.scss"],"names":[],"mappings":"AAEA;EACE,uBAAA;EACA,oCAAA;AAAF;;AAGA;EACE,oCAAA;AAAF;;AAGA;EACE,oCAAA;AAAF","sourcesContent":["@import url(\"https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap\");\r\n\r\n* {\r\n  font-family: Montserrat;\r\n  background-color: rgb(214, 191, 191);\r\n}\r\n\r\n#pointsButton {\r\n  background-color: rgb(255, 240, 240);\r\n}\r\n\r\n#pointsButton:hover {\r\n  background-color: rgb(167, 157, 157);\r\n}\r\n"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/styles/global.scss"],"names":[],"mappings":"AAEA;EACE,uBAAA;EACA,oCAAA;AAAF;;AAGA;EACE,sBAAA;AAAF;;AAGA;EACE,oCAAA;AAAF;;AAGA;EACE,oCAAA;AAAF","sourcesContent":["@import url(\"https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap\");\r\n\r\n* {\r\n  font-family: Montserrat;\r\n  background-color: rgb(214, 191, 191);\r\n}\r\n\r\n.points {\r\n  color: rgb(48, 48, 48);\r\n}\r\n\r\n#pointsButton {\r\n  background-color: rgb(255, 240, 240);\r\n}\r\n\r\n#pointsButton:hover {\r\n  background-color: rgb(167, 157, 157);\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -490,12 +494,16 @@ __webpack_require__.r(__webpack_exports__);
 let pointsButton = new _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper("pointsButton");
 _element__WEBPACK_IMPORTED_MODULE_1__.el.update.points = () => {
     _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.setHTML("pointsDisplay", `${_player__WEBPACK_IMPORTED_MODULE_0__.player.points.toString()} Points`);
-    _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.setHTML("xpDisplay", `${_player__WEBPACK_IMPORTED_MODULE_0__.player.xp.toString()} XP`);
+    _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.setHTML("xpDisplay", `Level ${_player__WEBPACK_IMPORTED_MODULE_0__.player.level} (${_player__WEBPACK_IMPORTED_MODULE_0__.player.xp}/${Math.floor(10 * 1.1 ** (_player__WEBPACK_IMPORTED_MODULE_0__.player.level - 1))})`);
     pointsButton.setHTML(`Get ${_player__WEBPACK_IMPORTED_MODULE_0__.player.pointsMult} points and 1 XP`);
 };
 pointsButton.onClick(function () {
     _player__WEBPACK_IMPORTED_MODULE_0__.player.points += _player__WEBPACK_IMPORTED_MODULE_0__.player.pointsMult;
     _player__WEBPACK_IMPORTED_MODULE_0__.player.xp += 1;
+    if (_player__WEBPACK_IMPORTED_MODULE_0__.player.xp >= Math.floor(10 * 1.1 ** (_player__WEBPACK_IMPORTED_MODULE_0__.player.level - 1))) {
+        _player__WEBPACK_IMPORTED_MODULE_0__.player.xp = 0;
+        _player__WEBPACK_IMPORTED_MODULE_0__.player.level++;
+    }
 });
 
 
@@ -515,6 +523,7 @@ let player = {
     points: 0,
     pointsMult: 1,
     xp: 0,
+    level: 1,
 };
 
 
