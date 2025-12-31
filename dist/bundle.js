@@ -5699,7 +5699,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `* {
 }
 
 body {
-  background-color: rosybrown;
+  background-color: rgb(250, 244, 244);
 }
 
 .upgrade {
@@ -5707,7 +5707,11 @@ body {
 }
 
 .points {
-  color: rgb(48, 48, 48);
+  color: rgb(100, 100, 100);
+}
+
+.xp {
+  color: blue;
 }
 
 #pointsButton {
@@ -5716,7 +5720,7 @@ body {
 
 #pointsButton:hover {
   background-color: rgb(167, 157, 157);
-}`, "",{"version":3,"sources":["webpack://./src/styles/global.scss"],"names":[],"mappings":"AAEA;EACE,uBAAA;AAAF;;AAGA;EACE,2BAAA;AAAF;;AAGA;EACE,4BAAA;AAAF;;AAGA;EACE,sBAAA;AAAF;;AAGA;EACE,oCAAA;AAAF;;AAGA;EACE,oCAAA;AAAF","sourcesContent":["@import url(\"https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap\");\r\n\r\n* {\r\n  font-family: Montserrat;\r\n}\r\n\r\nbody {\r\n  background-color: rosybrown;\r\n}\r\n\r\n.upgrade {\r\n  background-color: aquamarine;\r\n}\r\n\r\n.points {\r\n  color: rgb(48, 48, 48);\r\n}\r\n\r\n#pointsButton {\r\n  background-color: rgb(255, 240, 240);\r\n}\r\n\r\n#pointsButton:hover {\r\n  background-color: rgb(167, 157, 157);\r\n}\r\n"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/styles/global.scss"],"names":[],"mappings":"AAEA;EACE,uBAAA;AAAF;;AAGA;EACE,oCAAA;AAAF;;AAGA;EACE,4BAAA;AAAF;;AAGA;EACE,yBAAA;AAAF;;AAEA;EACE,WAAA;AACF;;AAEA;EACE,oCAAA;AACF;;AAEA;EACE,oCAAA;AACF","sourcesContent":["@import url(\"https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap\");\r\n\r\n* {\r\n  font-family: Montserrat;\r\n}\r\n\r\nbody {\r\n  background-color: rgb(250, 244, 244);\r\n}\r\n\r\n.upgrade {\r\n  background-color: aquamarine;\r\n}\r\n\r\n.points {\r\n  color: rgb(100, 100, 100);\r\n}\r\n.xp {\r\n  color: blue;\r\n}\r\n\r\n#pointsButton {\r\n  background-color: rgb(255, 240, 240);\r\n}\r\n\r\n#pointsButton:hover {\r\n  background-color: rgb(167, 157, 157);\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -6187,24 +6191,43 @@ _upgrade__WEBPACK_IMPORTED_MODULE_3__.upgrades.pointsI = {
         }
     },
 };
+_upgrade__WEBPACK_IMPORTED_MODULE_3__.upgrades.xpI = {
+    cost: new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](50),
+    costScaling: 1.5,
+    level: 0,
+    action() {
+        if (_player__WEBPACK_IMPORTED_MODULE_0__.player.points.greaterThanOrEqualTo(this.cost)) {
+            _player__WEBPACK_IMPORTED_MODULE_0__.player.points = _player__WEBPACK_IMPORTED_MODULE_0__.player.points.subtract(this.cost);
+            this.cost = this.cost.multiply(this.costScaling).floor();
+            this.level++;
+            _player__WEBPACK_IMPORTED_MODULE_0__.player.xpMult = _player__WEBPACK_IMPORTED_MODULE_0__.player.xpMult.multiply(2);
+        }
+    },
+};
 _element__WEBPACK_IMPORTED_MODULE_1__.el.update.points = () => {
     _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.setHTML("pointsDisplay", `${_player__WEBPACK_IMPORTED_MODULE_0__.player.points.toString()} Points`);
     _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.setHTML("xpDisplay", `Level ${_player__WEBPACK_IMPORTED_MODULE_0__.player.level} (${_player__WEBPACK_IMPORTED_MODULE_0__.player.xp}/${Math.floor(10 * 1.1 ** (_player__WEBPACK_IMPORTED_MODULE_0__.player.level - 1))})`);
     _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.setHTML("pointsButton", `Get ${_player__WEBPACK_IMPORTED_MODULE_0__.player.pointsMult} points and ${_player__WEBPACK_IMPORTED_MODULE_0__.player.xpMult} XP`);
     _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.setHTML("pointsIUpgrade", `Points I (${_upgrade__WEBPACK_IMPORTED_MODULE_3__.upgrades.pointsI.level})<br> Get +100% <span class="points">points</span> per level <br> ${_upgrade__WEBPACK_IMPORTED_MODULE_3__.upgrades.pointsI.cost} <span class="points">Points</span>`);
+    _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.setHTML("xpIUpgrade", `XP I (${_upgrade__WEBPACK_IMPORTED_MODULE_3__.upgrades.xpI.level})<br> Get 2x <span class="xp">XP</span> per level <br> ${_upgrade__WEBPACK_IMPORTED_MODULE_3__.upgrades.xpI.cost} <span class="points">Points</span>`);
 };
 let pointsButton = new _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper("pointsButton");
 let pointsIButton = new _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper("pointsIUpgrade");
-pointsButton.onClick(function () {
+let xpIButton = new _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper("xpIUpgrade");
+function clickerClick() {
     _player__WEBPACK_IMPORTED_MODULE_0__.player.points = _player__WEBPACK_IMPORTED_MODULE_0__.player.points.add(_player__WEBPACK_IMPORTED_MODULE_0__.player.pointsMult);
     _player__WEBPACK_IMPORTED_MODULE_0__.player.xp = _player__WEBPACK_IMPORTED_MODULE_0__.player.xp.add(_player__WEBPACK_IMPORTED_MODULE_0__.player.xpMult);
     if (_player__WEBPACK_IMPORTED_MODULE_0__.player.xp.greaterThanOrEqualTo(Math.floor(10 * 1.1 ** (_player__WEBPACK_IMPORTED_MODULE_0__.player.level - 1)))) {
         _player__WEBPACK_IMPORTED_MODULE_0__.player.xp = new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](0);
         _player__WEBPACK_IMPORTED_MODULE_0__.player.level++;
     }
-});
+}
+pointsButton.onClick(clickerClick);
 pointsIButton.onClick(function () {
     _upgrade__WEBPACK_IMPORTED_MODULE_3__.upgrades.pointsI.action();
+});
+xpIButton.onClick(function () {
+    _upgrade__WEBPACK_IMPORTED_MODULE_3__.upgrades.xpI.action();
 });
 
 
