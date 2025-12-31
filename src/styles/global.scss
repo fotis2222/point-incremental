@@ -4,19 +4,33 @@
   font-family: Montserrat;
 }
 
+$start-color: #ffffff;
+$end-color: #ff9d9d;
+
 body {
-  background-color: rgb(250, 244, 244);
+  background: linear-gradient(to bottom right, $start-color, $end-color);
+  min-height: 100vh;
+  background-size: cover;
 }
 
 .upgrade {
   background-color: aquamarine;
 }
 
+.reset {
+  background-color: cornflowerblue;
+}
+
 .points {
   color: rgb(100, 100, 100);
 }
+
 .xp {
   color: blue;
+}
+
+.compression {
+  color: darkslategray;
 }
 
 #pointsButton {
@@ -25,4 +39,8 @@ body {
 
 #pointsButton:hover {
   background-color: rgb(167, 157, 157);
+}
+
+#wiper {
+  background-color: red;
 }

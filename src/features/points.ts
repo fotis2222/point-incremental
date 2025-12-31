@@ -1,37 +1,54 @@
 import { player } from "../player";
 import { ElementWrapper, el } from "../element";
 import Decimal from "break_eternity.js";
-import { upgrades } from "../upgrade";
+import { Upgrade } from "../upgrade";
 
-upgrades.pointsI = {
-  cost: new Decimal(10),
-  costScaling: 1.1,
-  level: 0,
-  action() {
-    if (player.points.greaterThanOrEqualTo(this.cost)) {
-      player.points = player.points.subtract(this.cost);
-      this.cost = this.cost.multiply(this.costScaling).floor();
-      this.level++;
+export let pointsI = new Upgrade(
+  new Decimal(10),
+  new Decimal(1.1),
+  new Decimal(0),
+  () => {
+    if (player.points.greaterThanOrEqualTo(pointsI.cost)) {
+      player.points = player.points.subtract(pointsI.cost);
+      pointsI.cost = pointsI.cost.multiply(pointsI.costScaling).floor();
+      pointsI.level = pointsI.level.add(1);
 
       player.pointsMult = player.pointsMult.add(1);
     }
-  },
-};
+  }
+);
 
-upgrades.xpI = {
-  cost: new Decimal(50),
-  costScaling: 1.5,
-  level: 0,
-  action() {
-    if (player.points.greaterThanOrEqualTo(this.cost)) {
-      player.points = player.points.subtract(this.cost);
-      this.cost = this.cost.multiply(this.costScaling).floor();
-      this.level++;
+export let xpI = new Upgrade(
+  new Decimal(50),
+  new Decimal(1.5),
+  new Decimal(0),
+  () => {
+    if (player.points.greaterThanOrEqualTo(xpI.cost)) {
+      player.points = player.points.subtract(xpI.cost);
+      xpI.cost = xpI.cost.multiply(xpI.costScaling).floor();
+      xpI.level = xpI.level.add(1);
 
       player.xpMult = player.xpMult.multiply(2);
     }
-  },
-};
+  }
+);
+
+export let compressedPointsI = new Upgrade(
+  new Decimal(1000),
+  new Decimal(1.1),
+  new Decimal(0),
+  () => {
+    if (player.points.greaterThanOrEqualTo(compressedPointsI.cost)) {
+      player.points = player.points.subtract(compressedPointsI.cost);
+      compressedPointsI.cost = compressedPointsI.cost
+        .multiply(compressedPointsI.costScaling)
+        .floor();
+      compressedPointsI.level = compressedPointsI.level.add(1);
+
+      player.compressedPointsMult = player.compressedPointsMult.add(1.2);
+    }
+  }
+);
 
 el.update.points = () => {
   ElementWrapper.setHTML("pointsDisplay", `${player.points.toString()} Points`);
@@ -47,35 +64,49 @@ el.update.points = () => {
   );
   ElementWrapper.setHTML(
     "pointsIUpgrade",
-    `Points I (${upgrades.pointsI.level})<br> Get +100% <span class="points">points</span> per level <br> ${upgrades.pointsI.cost} <span class="points">Points</span>`
+    `Points I (${pointsI.level})<br>Get +100% points per level<br>${pointsI.cost} Points`
   );
   ElementWrapper.setHTML(
     "xpIUpgrade",
-    `XP I (${upgrades.xpI.level})<br> Get 2x <span class="xp">XP</span> per level <br> ${upgrades.xpI.cost} <span class="points">Points</span>`
+    `XP I (${xpI.level})<br>Get 2x XP per level<br>${xpI.cost} Points`
+  );
+  ElementWrapper.setHTML(
+    "compressedPointsIUpgrade",
+    `Compressed Points I (${compressedPointsI.level})<br>Get +20% Compressed Points per level<br>${compressedPointsI.cost} Points`
   );
 };
 
 let pointsButton: ElementWrapper = new ElementWrapper("pointsButton");
 let pointsIButton: ElementWrapper = new ElementWrapper("pointsIUpgrade");
 let xpIButton: ElementWrapper = new ElementWrapper("xpIUpgrade");
+let compressedPointsIButton: ElementWrapper = new ElementWrapper(
+  "compressedPointsIUpgrade"
+);
 
 function clickerClick() {
-  player.points = player.points.add(player.pointsMult);
+  player.points = player.points.add(
+    player.pointsMult.multiply(player.pointsMultII)
+  );
   player.xp = player.xp.add(player.xpMult);
   if (
     player.xp.greaterThanOrEqualTo(Math.floor(10 * 1.1 ** (player.level - 1)))
   ) {
     player.xp = new Decimal(0);
     player.level++;
+    if (player.level > player.maxLevel) player.maxLevel = player.level;
   }
 }
 
 pointsButton.onClick(clickerClick);
 
 pointsIButton.onClick(function () {
-  upgrades.pointsI.action();
+  pointsI.action();
 });
 
 xpIButton.onClick(function () {
-  upgrades.xpI.action();
+  xpI.action();
+});
+
+compressedPointsIButton.onClick(function () {
+  compressedPointsI.action();
 });

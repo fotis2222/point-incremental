@@ -5699,11 +5699,17 @@ ___CSS_LOADER_EXPORT___.push([module.id, `* {
 }
 
 body {
-  background-color: rgb(250, 244, 244);
+  background: linear-gradient(to bottom right, #ffffff, #ff9d9d);
+  min-height: 100vh;
+  background-size: cover;
 }
 
 .upgrade {
   background-color: aquamarine;
+}
+
+.reset {
+  background-color: cornflowerblue;
 }
 
 .points {
@@ -5714,13 +5720,21 @@ body {
   color: blue;
 }
 
+.compression {
+  color: darkslategray;
+}
+
 #pointsButton {
   background-color: rgb(255, 240, 240);
 }
 
 #pointsButton:hover {
   background-color: rgb(167, 157, 157);
-}`, "",{"version":3,"sources":["webpack://./src/styles/global.scss"],"names":[],"mappings":"AAEA;EACE,uBAAA;AAAF;;AAGA;EACE,oCAAA;AAAF;;AAGA;EACE,4BAAA;AAAF;;AAGA;EACE,yBAAA;AAAF;;AAEA;EACE,WAAA;AACF;;AAEA;EACE,oCAAA;AACF;;AAEA;EACE,oCAAA;AACF","sourcesContent":["@import url(\"https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap\");\r\n\r\n* {\r\n  font-family: Montserrat;\r\n}\r\n\r\nbody {\r\n  background-color: rgb(250, 244, 244);\r\n}\r\n\r\n.upgrade {\r\n  background-color: aquamarine;\r\n}\r\n\r\n.points {\r\n  color: rgb(100, 100, 100);\r\n}\r\n.xp {\r\n  color: blue;\r\n}\r\n\r\n#pointsButton {\r\n  background-color: rgb(255, 240, 240);\r\n}\r\n\r\n#pointsButton:hover {\r\n  background-color: rgb(167, 157, 157);\r\n}\r\n"],"sourceRoot":""}]);
+}
+
+#wiper {
+  background-color: red;
+}`, "",{"version":3,"sources":["webpack://./src/styles/global.scss"],"names":[],"mappings":"AAEA;EACE,uBAAA;AAAF;;AAMA;EACE,8DAAA;EACA,iBAAA;EACA,sBAAA;AAHF;;AAMA;EACE,4BAAA;AAHF;;AAMA;EACE,gCAAA;AAHF;;AAMA;EACE,yBAAA;AAHF;;AAMA;EACE,WAAA;AAHF;;AAMA;EACE,oBAAA;AAHF;;AAMA;EACE,oCAAA;AAHF;;AAMA;EACE,oCAAA;AAHF;;AAMA;EACE,qBAAA;AAHF","sourcesContent":["@import url(\"https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap\");\r\n\r\n* {\r\n  font-family: Montserrat;\r\n}\r\n\r\n$start-color: #ffffff;\r\n$end-color: #ff9d9d;\r\n\r\nbody {\r\n  background: linear-gradient(to bottom right, $start-color, $end-color);\r\n  min-height: 100vh;\r\n  background-size: cover;\r\n}\r\n\r\n.upgrade {\r\n  background-color: aquamarine;\r\n}\r\n\r\n.reset {\r\n  background-color: cornflowerblue;\r\n}\r\n\r\n.points {\r\n  color: rgb(100, 100, 100);\r\n}\r\n\r\n.xp {\r\n  color: blue;\r\n}\r\n\r\n.compression {\r\n  color: darkslategray;\r\n}\r\n\r\n#pointsButton {\r\n  background-color: rgb(255, 240, 240);\r\n}\r\n\r\n#pointsButton:hover {\r\n  background-color: rgb(167, 157, 157);\r\n}\r\n\r\n#wiper {\r\n  background-color: red;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -6154,11 +6168,91 @@ class ElementWrapper {
     static onClick(el, func) {
         new ElementWrapper(el).onClick(func);
     }
+    hide() {
+        if (this.el)
+            this.el.style.display = "none";
+    }
+    static hide(el) {
+        new ElementWrapper(el).hide();
+    }
+    block() {
+        if (this.el)
+            this.el.style.display = "block";
+    }
+    static block(el) {
+        new ElementWrapper(el).block();
+    }
 }
 function updateHTML() {
     for (let x in el.update)
         el.update[x]();
 }
+
+
+/***/ },
+
+/***/ "./src/features/compression.ts"
+/*!*************************************!*\
+  !*** ./src/features/compression.ts ***!
+  \*************************************/
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _player__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../player */ "./src/player.ts");
+/* harmony import */ var _element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../element */ "./src/element.ts");
+/* harmony import */ var break_eternity_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! break_eternity.js */ "./node_modules/break_eternity.js/dist/break_eternity.esm.js");
+/* harmony import */ var _points__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./points */ "./src/features/points.ts");
+
+
+
+
+function calculateCompressedPoints(player) {
+    return new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](Math.floor(1.5 ** (player.level - 50)))
+        .multiply(player.compressedPointsMult)
+        .floor();
+}
+function compress() {
+    let tempCompressed = calculateCompressedPoints(_player__WEBPACK_IMPORTED_MODULE_0__.player);
+    if (_player__WEBPACK_IMPORTED_MODULE_0__.player.level >= 51) {
+        _points__WEBPACK_IMPORTED_MODULE_3__.pointsI.cost = new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](10);
+        _points__WEBPACK_IMPORTED_MODULE_3__.pointsI.level = new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](0);
+        _points__WEBPACK_IMPORTED_MODULE_3__.xpI.cost = new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](50);
+        _points__WEBPACK_IMPORTED_MODULE_3__.xpI.level = new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](0);
+        _points__WEBPACK_IMPORTED_MODULE_3__.compressedPointsI.cost = new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](1000);
+        _points__WEBPACK_IMPORTED_MODULE_3__.compressedPointsI.level = new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](0);
+        Object.assign(_player__WEBPACK_IMPORTED_MODULE_0__.player, {
+            points: new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](0),
+            pointsMult: new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](1),
+            xp: new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](0),
+            xpMult: new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](1),
+            level: 1,
+            compressedPointsMult: new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](1),
+        });
+        _player__WEBPACK_IMPORTED_MODULE_0__.player.compressedPoints = _player__WEBPACK_IMPORTED_MODULE_0__.player.compressedPoints.add(tempCompressed);
+        if (!_player__WEBPACK_IMPORTED_MODULE_0__.player.hasCompressed)
+            _player__WEBPACK_IMPORTED_MODULE_0__.player.hasCompressed = true;
+    }
+}
+_element__WEBPACK_IMPORTED_MODULE_1__.el.update.compression = () => {
+    if (_player__WEBPACK_IMPORTED_MODULE_0__.player.maxLevel < 51) {
+        _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.hide("compressionDiv");
+    }
+    else {
+        _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.block("compressionDiv");
+    }
+    if (!_player__WEBPACK_IMPORTED_MODULE_0__.player.hasCompressed) {
+        _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.hide("compressLockedPointsStuff");
+        _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.hide("compressLockedCompressionStuff");
+    }
+    else {
+        _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.block("compressLockedPointsStuff");
+        _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.block("compressLockedCompressionStuff");
+    }
+    _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.setHTML("compressButton", `do it for ${calculateCompressedPoints(_player__WEBPACK_IMPORTED_MODULE_0__.player)}`);
+    _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.setHTML("compressedPointsDisplay", `you have ${_player__WEBPACK_IMPORTED_MODULE_0__.player.compressedPoints} <span class="compression">Compressed points</span>`);
+};
+let compressButton = new _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper("compressButton");
+compressButton.onClick(compress);
 
 
 /***/ },
@@ -6170,6 +6264,11 @@ function updateHTML() {
 (__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   compressedPointsI: () => (/* binding */ compressedPointsI),
+/* harmony export */   pointsI: () => (/* binding */ pointsI),
+/* harmony export */   xpI: () => (/* binding */ xpI)
+/* harmony export */ });
 /* harmony import */ var _player__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../player */ "./src/player.ts");
 /* harmony import */ var _element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../element */ "./src/element.ts");
 /* harmony import */ var break_eternity_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! break_eternity.js */ "./node_modules/break_eternity.js/dist/break_eternity.esm.js");
@@ -6178,56 +6277,63 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-_upgrade__WEBPACK_IMPORTED_MODULE_3__.upgrades.pointsI = {
-    cost: new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](10),
-    costScaling: 1.1,
-    level: 0,
-    action() {
-        if (_player__WEBPACK_IMPORTED_MODULE_0__.player.points.greaterThanOrEqualTo(this.cost)) {
-            _player__WEBPACK_IMPORTED_MODULE_0__.player.points = _player__WEBPACK_IMPORTED_MODULE_0__.player.points.subtract(this.cost);
-            this.cost = this.cost.multiply(this.costScaling).floor();
-            this.level++;
-            _player__WEBPACK_IMPORTED_MODULE_0__.player.pointsMult = _player__WEBPACK_IMPORTED_MODULE_0__.player.pointsMult.add(1);
-        }
-    },
-};
-_upgrade__WEBPACK_IMPORTED_MODULE_3__.upgrades.xpI = {
-    cost: new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](50),
-    costScaling: 1.5,
-    level: 0,
-    action() {
-        if (_player__WEBPACK_IMPORTED_MODULE_0__.player.points.greaterThanOrEqualTo(this.cost)) {
-            _player__WEBPACK_IMPORTED_MODULE_0__.player.points = _player__WEBPACK_IMPORTED_MODULE_0__.player.points.subtract(this.cost);
-            this.cost = this.cost.multiply(this.costScaling).floor();
-            this.level++;
-            _player__WEBPACK_IMPORTED_MODULE_0__.player.xpMult = _player__WEBPACK_IMPORTED_MODULE_0__.player.xpMult.multiply(2);
-        }
-    },
-};
+let pointsI = new _upgrade__WEBPACK_IMPORTED_MODULE_3__.Upgrade(new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](10), new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](1.1), new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](0), () => {
+    if (_player__WEBPACK_IMPORTED_MODULE_0__.player.points.greaterThanOrEqualTo(pointsI.cost)) {
+        _player__WEBPACK_IMPORTED_MODULE_0__.player.points = _player__WEBPACK_IMPORTED_MODULE_0__.player.points.subtract(pointsI.cost);
+        pointsI.cost = pointsI.cost.multiply(pointsI.costScaling).floor();
+        pointsI.level = pointsI.level.add(1);
+        _player__WEBPACK_IMPORTED_MODULE_0__.player.pointsMult = _player__WEBPACK_IMPORTED_MODULE_0__.player.pointsMult.add(1);
+    }
+});
+let xpI = new _upgrade__WEBPACK_IMPORTED_MODULE_3__.Upgrade(new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](50), new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](1.5), new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](0), () => {
+    if (_player__WEBPACK_IMPORTED_MODULE_0__.player.points.greaterThanOrEqualTo(xpI.cost)) {
+        _player__WEBPACK_IMPORTED_MODULE_0__.player.points = _player__WEBPACK_IMPORTED_MODULE_0__.player.points.subtract(xpI.cost);
+        xpI.cost = xpI.cost.multiply(xpI.costScaling).floor();
+        xpI.level = xpI.level.add(1);
+        _player__WEBPACK_IMPORTED_MODULE_0__.player.xpMult = _player__WEBPACK_IMPORTED_MODULE_0__.player.xpMult.multiply(2);
+    }
+});
+let compressedPointsI = new _upgrade__WEBPACK_IMPORTED_MODULE_3__.Upgrade(new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](1000), new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](1.1), new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](0), () => {
+    if (_player__WEBPACK_IMPORTED_MODULE_0__.player.points.greaterThanOrEqualTo(compressedPointsI.cost)) {
+        _player__WEBPACK_IMPORTED_MODULE_0__.player.points = _player__WEBPACK_IMPORTED_MODULE_0__.player.points.subtract(compressedPointsI.cost);
+        compressedPointsI.cost = compressedPointsI.cost
+            .multiply(compressedPointsI.costScaling)
+            .floor();
+        compressedPointsI.level = compressedPointsI.level.add(1);
+        _player__WEBPACK_IMPORTED_MODULE_0__.player.compressedPointsMult = _player__WEBPACK_IMPORTED_MODULE_0__.player.compressedPointsMult.add(1.2);
+    }
+});
 _element__WEBPACK_IMPORTED_MODULE_1__.el.update.points = () => {
     _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.setHTML("pointsDisplay", `${_player__WEBPACK_IMPORTED_MODULE_0__.player.points.toString()} Points`);
     _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.setHTML("xpDisplay", `Level ${_player__WEBPACK_IMPORTED_MODULE_0__.player.level} (${_player__WEBPACK_IMPORTED_MODULE_0__.player.xp}/${Math.floor(10 * 1.1 ** (_player__WEBPACK_IMPORTED_MODULE_0__.player.level - 1))})`);
     _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.setHTML("pointsButton", `Get ${_player__WEBPACK_IMPORTED_MODULE_0__.player.pointsMult} points and ${_player__WEBPACK_IMPORTED_MODULE_0__.player.xpMult} XP`);
-    _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.setHTML("pointsIUpgrade", `Points I (${_upgrade__WEBPACK_IMPORTED_MODULE_3__.upgrades.pointsI.level})<br> Get +100% <span class="points">points</span> per level <br> ${_upgrade__WEBPACK_IMPORTED_MODULE_3__.upgrades.pointsI.cost} <span class="points">Points</span>`);
-    _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.setHTML("xpIUpgrade", `XP I (${_upgrade__WEBPACK_IMPORTED_MODULE_3__.upgrades.xpI.level})<br> Get 2x <span class="xp">XP</span> per level <br> ${_upgrade__WEBPACK_IMPORTED_MODULE_3__.upgrades.xpI.cost} <span class="points">Points</span>`);
+    _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.setHTML("pointsIUpgrade", `Points I (${pointsI.level})<br>Get +100% points per level<br>${pointsI.cost} Points`);
+    _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.setHTML("xpIUpgrade", `XP I (${xpI.level})<br>Get 2x XP per level<br>${xpI.cost} Points`);
+    _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper.setHTML("compressedPointsIUpgrade", `Compressed Points I (${compressedPointsI.level})<br>Get +20% Compressed Points per level<br>${compressedPointsI.cost} Points`);
 };
 let pointsButton = new _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper("pointsButton");
 let pointsIButton = new _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper("pointsIUpgrade");
 let xpIButton = new _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper("xpIUpgrade");
+let compressedPointsIButton = new _element__WEBPACK_IMPORTED_MODULE_1__.ElementWrapper("compressedPointsIUpgrade");
 function clickerClick() {
-    _player__WEBPACK_IMPORTED_MODULE_0__.player.points = _player__WEBPACK_IMPORTED_MODULE_0__.player.points.add(_player__WEBPACK_IMPORTED_MODULE_0__.player.pointsMult);
+    _player__WEBPACK_IMPORTED_MODULE_0__.player.points = _player__WEBPACK_IMPORTED_MODULE_0__.player.points.add(_player__WEBPACK_IMPORTED_MODULE_0__.player.pointsMult.multiply(_player__WEBPACK_IMPORTED_MODULE_0__.player.pointsMultII));
     _player__WEBPACK_IMPORTED_MODULE_0__.player.xp = _player__WEBPACK_IMPORTED_MODULE_0__.player.xp.add(_player__WEBPACK_IMPORTED_MODULE_0__.player.xpMult);
     if (_player__WEBPACK_IMPORTED_MODULE_0__.player.xp.greaterThanOrEqualTo(Math.floor(10 * 1.1 ** (_player__WEBPACK_IMPORTED_MODULE_0__.player.level - 1)))) {
         _player__WEBPACK_IMPORTED_MODULE_0__.player.xp = new break_eternity_js__WEBPACK_IMPORTED_MODULE_2__["default"](0);
         _player__WEBPACK_IMPORTED_MODULE_0__.player.level++;
+        if (_player__WEBPACK_IMPORTED_MODULE_0__.player.level > _player__WEBPACK_IMPORTED_MODULE_0__.player.maxLevel)
+            _player__WEBPACK_IMPORTED_MODULE_0__.player.maxLevel = _player__WEBPACK_IMPORTED_MODULE_0__.player.level;
     }
 }
 pointsButton.onClick(clickerClick);
 pointsIButton.onClick(function () {
-    _upgrade__WEBPACK_IMPORTED_MODULE_3__.upgrades.pointsI.action();
+    pointsI.action();
 });
 xpIButton.onClick(function () {
-    _upgrade__WEBPACK_IMPORTED_MODULE_3__.upgrades.xpI.action();
+    xpI.action();
+});
+compressedPointsIButton.onClick(function () {
+    compressedPointsI.action();
 });
 
 
@@ -6248,9 +6354,14 @@ __webpack_require__.r(__webpack_exports__);
 let player = {
     points: new break_eternity_js__WEBPACK_IMPORTED_MODULE_0__["default"](0),
     pointsMult: new break_eternity_js__WEBPACK_IMPORTED_MODULE_0__["default"](1),
+    pointsMultII: new break_eternity_js__WEBPACK_IMPORTED_MODULE_0__["default"](1),
     xp: new break_eternity_js__WEBPACK_IMPORTED_MODULE_0__["default"](0),
     xpMult: new break_eternity_js__WEBPACK_IMPORTED_MODULE_0__["default"](1),
     level: 1,
+    maxLevel: 1,
+    hasCompressed: false,
+    compressedPoints: new break_eternity_js__WEBPACK_IMPORTED_MODULE_0__["default"](0),
+    compressedPointsMult: new break_eternity_js__WEBPACK_IMPORTED_MODULE_0__["default"](1),
 };
 
 
@@ -6316,9 +6427,26 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   upgrades: () => (/* binding */ upgrades)
+/* harmony export */   Upgrade: () => (/* binding */ Upgrade)
 /* harmony export */ });
-let upgrades = {};
+class Upgrade {
+    constructor(cost, costScaling, level, action) {
+        this.cost = cost;
+        this.costScaling = costScaling;
+        this.level = level;
+        this.action = action;
+    }
+    toJSON() {
+        return {
+            cost: this.cost.toString(),
+            costScaling: this.costScaling.toString(),
+            level: this.level.toString(),
+        };
+    }
+    static fromJSON(json, action) {
+        return new Upgrade(json.cost, json.costScaling, json.level, action);
+    }
+}
 
 
 /***/ }
@@ -6410,16 +6538,77 @@ var __webpack_exports__ = {};
   \*********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./element */ "./src/element.ts");
-/* harmony import */ var _features_points__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./features/points */ "./src/features/points.ts");
-/* harmony import */ var _upgrade__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./upgrade */ "./src/upgrade.ts");
-/* harmony import */ var _styles_global_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./styles/global.scss */ "./src/styles/global.scss");
+/* harmony import */ var break_eternity_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! break_eternity.js */ "./node_modules/break_eternity.js/dist/break_eternity.esm.js");
+/* harmony import */ var _player__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./player */ "./src/player.ts");
+/* harmony import */ var _features_points__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./features/points */ "./src/features/points.ts");
+/* harmony import */ var _features_compression__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./features/compression */ "./src/features/compression.ts");
+/* harmony import */ var _upgrade__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./upgrade */ "./src/upgrade.ts");
+/* harmony import */ var _styles_global_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./styles/global.scss */ "./src/styles/global.scss");
+
+
+
+
 
 
 
 // glitz
 
-const FPS = 30;
-setInterval(_element__WEBPACK_IMPORTED_MODULE_0__.updateHTML, 1000 / FPS);
+let upgrades = [_features_points__WEBPACK_IMPORTED_MODULE_3__.pointsI, _features_points__WEBPACK_IMPORTED_MODULE_3__.xpI, _features_points__WEBPACK_IMPORTED_MODULE_3__.compressedPointsI];
+let autosave = true;
+function save() {
+    if (!autosave)
+        return;
+    localStorage.setItem("playerSave", JSON.stringify(_player__WEBPACK_IMPORTED_MODULE_2__.player));
+    localStorage.setItem("upgradesSave", JSON.stringify(upgrades));
+}
+function load() {
+    const playerSave = localStorage.getItem("playerSave");
+    if (playerSave)
+        Object.assign(_player__WEBPACK_IMPORTED_MODULE_2__.player, JSON.parse(playerSave));
+    // some keys may be finicky
+    for (let k in _player__WEBPACK_IMPORTED_MODULE_2__.player) {
+        const key = k;
+        if (typeof _player__WEBPACK_IMPORTED_MODULE_2__.player[key] !== "number" && typeof _player__WEBPACK_IMPORTED_MODULE_2__.player[key] !== "boolean") {
+            _player__WEBPACK_IMPORTED_MODULE_2__.player[key] = new break_eternity_js__WEBPACK_IMPORTED_MODULE_1__["default"](_player__WEBPACK_IMPORTED_MODULE_2__.player[key]);
+        }
+    }
+    const upgradesSave = localStorage.getItem("upgradesSave");
+    let tempActions = upgrades.map((u) => u.action);
+    if (upgradesSave) {
+        let parsed = JSON.parse(upgradesSave);
+        upgrades.forEach((u, i) => {
+            if (parsed[i]) {
+                u.cost = new break_eternity_js__WEBPACK_IMPORTED_MODULE_1__["default"](parsed[i].cost);
+                u.costScaling = new break_eternity_js__WEBPACK_IMPORTED_MODULE_1__["default"](parsed[i].costScaling);
+                u.level = new break_eternity_js__WEBPACK_IMPORTED_MODULE_1__["default"](parsed[i].level);
+            }
+            u.action = tempActions[i];
+        });
+    }
+}
+function wipeSave() {
+    autosave = false;
+    const ok = confirm("are you sure you want to wipe your save? this cannot be undone.");
+    if (!ok) {
+        autosave = true;
+        return;
+    }
+    localStorage.clear();
+    location.reload();
+}
+_element__WEBPACK_IMPORTED_MODULE_0__.ElementWrapper.onClick("wiper", wipeSave);
+_element__WEBPACK_IMPORTED_MODULE_0__.el.update.story = () => {
+    if (_player__WEBPACK_IMPORTED_MODULE_2__.player.hasCompressed) {
+        _element__WEBPACK_IMPORTED_MODULE_0__.ElementWrapper.setHTML("story", "oh what a decision you have made...");
+    }
+};
+function gameLoop() {
+    (0,_element__WEBPACK_IMPORTED_MODULE_0__.updateHTML)();
+    save();
+}
+load();
+const FPS = 10;
+setInterval(gameLoop, 1000 / FPS);
 
 })();
 

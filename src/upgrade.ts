@@ -1,10 +1,33 @@
 import Decimal from "break_eternity.js";
 
-interface Upgrade {
+export class Upgrade {
   cost: Decimal;
-  level: number;
-  costScaling: number;
-  action: () => void;
-}
+  costScaling: Decimal;
+  level: Decimal;
 
-export let upgrades: Record<string, Upgrade> = {};
+  action: () => void;
+
+  constructor(
+    cost: Decimal,
+    costScaling: Decimal,
+    level: Decimal,
+    action: () => void
+  ) {
+    this.cost = cost;
+    this.costScaling = costScaling;
+    this.level = level;
+    this.action = action;
+  }
+
+  toJSON() {
+    return {
+      cost: this.cost.toString(),
+      costScaling: this.costScaling.toString(),
+      level: this.level.toString(),
+    };
+  }
+
+  static fromJSON(json: any, action: () => void) {
+    return new Upgrade(json.cost, json.costScaling, json.level, action);
+  }
+}

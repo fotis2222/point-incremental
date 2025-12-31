@@ -36,6 +36,22 @@ export class ElementWrapper {
   static onClick(el: string, func: () => void) {
     new ElementWrapper(el).onClick(func);
   }
+
+  hide() {
+    if (this.el) this.el.style.display = "none";
+  }
+
+  static hide(el: string) {
+    new ElementWrapper(el).hide();
+  }
+
+  block() {
+    if (this.el) this.el.style.display = "block";
+  }
+
+  static block(el: string) {
+    new ElementWrapper(el).block();
+  }
 }
 
 export function updateHTML() {

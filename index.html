@@ -6,14 +6,37 @@
     <title>Point Incremental</title>
   </head>
   <body>
+    <div class="intro">
+      <p id="story">hello person, uhh do the thing yk what i mean</p>
+    </div>
     <div class="pointsDiv">
       <h1 id="pointsDisplay" , class="points"></h1>
       <h2 id="xpDisplay" class="xp"></h2>
       <button id="pointsButton"></button> <br />
       <button id="pointsIUpgrade" class="upgrade"></button>
       <button id="xpIUpgrade" class="upgrade"></button>
+      <div id="compressLockedPointsStuff">
+        <button id="compressedPointsIUpgrade" class="upgrade"></button>
+      </div>
     </div>
-
+    <div class="compressionDiv" id="compressionDiv">
+      <h1 class="compression">Compression</h1>
+      <p>
+        resets your <span class="points">Points</span> and
+        <span class="xp">XP</span> for
+        <span class="compression">Compressed points</span>
+        (level 51+)
+      </p>
+      <button id="compressButton" class="reset"></button>
+      <div id="compressLockedCompressionStuff">
+        <p id="compressedPointsDisplay"></p>
+        <p>
+          they are currently useless because i am too lazy to code some upgrades
+          for now
+        </p>
+      </div>
+    </div>
+    <button id="wiper" style="margin-top: 100px">wipe save</button>
     <script src="dist/bundle.js"></script>
   </body>
 </html>
